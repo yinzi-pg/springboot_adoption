@@ -25,9 +25,11 @@ export const petUpdateService = (petModel) =>{
 }
 
 //模糊查询
-export const searchPetService = (keyword) =>{
+export const searchPetService = (keyword,params) =>{
     return request.get("/pet/search",{
-        params: { keyword }
+        params: {
+            keyword:keyword,
+            params:params}
     })
 }
 

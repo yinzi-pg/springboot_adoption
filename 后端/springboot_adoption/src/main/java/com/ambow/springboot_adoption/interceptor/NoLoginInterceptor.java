@@ -15,12 +15,17 @@ public class NoLoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = (User) request.getSession().getAttribute("user");
         String requestURI = request.getRequestURI();
+        String contextPath = request.getContextPath();
         if (requestURI.contains("/user/login")||requestURI.contains("/user/register")) {
             return true;
         }
         if (user == null||userMapper.getUserByUserName(user.getUserName())==null) {
 
-            response.sendRedirect("http://localhost:5173/login");
+//            response.sendRedirect(contextPath+"login");
+            response.setStatus(401);
+//            response.setStatus(HttpServletResponse.SC_FOUND);
+//            response.setHeader("Location", "http://localhost:5173/login");
+//            response.setHeader("X-Auth-Redirect", "true");
             return false;
         }
 

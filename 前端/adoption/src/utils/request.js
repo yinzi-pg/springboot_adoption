@@ -1,17 +1,33 @@
- import axios from "axios";//导入模块
-const baseURL = "http://localhost:8080/springboot_adoption/"//连后台用的(路径)
+import axios from "axios";
+const baseURL = "http://localhost:8080/springboot_adoption/";
 const instance = axios.create({
-     baseURL,
-     withCredentials: true
+    baseURL,
+    withCredentials: true
 });
-//添加一个响应拦截器 response响应 request请求
+
 instance.interceptors.response.use(
-    result => {
+    (result) => {
         return result.data;
     },
-    err =>{
-        alert("错误！服务异常！");
-        return Promise.reject(err);
+    (error) => {
+        const res = error.response;
+        if (res) {
+            switch (res.status) {
+                case 401:
+                    window.location.href = "/login";
+                    break;
+                case 403:
+                    alert("无权限访问");
+                    break;
+                case 500:
+                    alert("服务器异常！");
+                    break;
+            }
+        } else {
+            alert("网络或服务异常！");
+        }
+        return Promise.reject(error);
     }
 );
-export default instance; 
+
+export default instance;
