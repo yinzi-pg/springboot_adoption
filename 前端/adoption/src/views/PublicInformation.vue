@@ -59,7 +59,7 @@ const onCurrentChange = (num) => {
 const publics = ref([]);
 
 // 控制弹窗显示
-const dialogVisible = ref(false);
+const dialogVisible =  ref(false);
 const detailVisible = ref(false);
 
 // 弹窗标题
