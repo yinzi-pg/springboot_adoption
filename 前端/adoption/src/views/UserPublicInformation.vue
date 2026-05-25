@@ -21,16 +21,12 @@ const detailVisible = ref(false)
 const currentPublic = ref(null)
 
 // 图片路径处理
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
+
 const getImageUrl = (path) => {
-  if (path?.startsWith('/assets/')) {
-    try {
-      return require('@/assets' + path)
-    } catch (e) {
-      console.error('无法加载图片:', path)
-      return '/assets/default-announcement.png'
-    }
+  if (path.startsWith('/images/')) {
+    return BACKEND_BASE + path;
   }
-  return path || '/assets/default-announcement.png'
 }
 
 // 文本截断函数

@@ -1,9 +1,9 @@
 spring:
   application:
-    name: springboot_demo1
+    name: springboot_adoption
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yjx_db1?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/pet_adoption?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123456
   servlet:
@@ -18,9 +18,3 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
-deepseek:
-  ai:
-    api-key: 自己的key
-    chat-url: https://api.deepseek.com/v1/chat/completions
-    model: deepseek-chat
-    timeout: 40000
