@@ -19,10 +19,15 @@ public class UploadController {
         Result result = new Result();
         String originalFilename = file.getOriginalFilename();
         String fileName   =   UUID.randomUUID().toString()+originalFilename.substring(originalFilename.lastIndexOf("."));
-        file.transferTo(new File("D:/img_test/"+fileName));
+        String uploadDir = System.getProperty("user.dir") + "/uploads/";
+        File dir = new File(uploadDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        file.transferTo(new File(uploadDir + fileName));
         result.setCode(0);
         result.setMessage("上传成功");
-        result.setData("http://localhost:8080/springboot_adoption/images/" + fileName);
+        result.setData("/images/" + fileName);
         return result;
     }
 

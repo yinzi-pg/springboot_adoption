@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration//配置类
 public class WebConfig implements WebMvcConfigurer {
 
-
+    @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 匹配所有接口
                 .allowedOrigins("http://localhost:5173") // 允许的前端来源
@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     //本地路径的映射到当前项目的路径下 设置虚拟路径
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:D:/img_test/");
+                .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/");
     }
 }
 

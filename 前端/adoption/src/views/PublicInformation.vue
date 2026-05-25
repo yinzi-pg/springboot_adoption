@@ -32,17 +32,13 @@ const handleImageUploadSuccess = (result) => {
 };
 
 // 图片路径处理
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
+
 const getImageUrl = (path) => {
-  if (path?.startsWith('/assets/')) {
-    try {
-      return require('@/assets' + path);
-    } catch (e) {
-      console.error('无法加载图片:', path);
-      return '/assets/a.png';
-    }
+  if (path.startsWith('/images/')) {
+    return BACKEND_BASE + path;
   }
-  return path || '/assets/a.png';
-};
+}
 
 // 分页相关
 const pageNum = ref(1);
