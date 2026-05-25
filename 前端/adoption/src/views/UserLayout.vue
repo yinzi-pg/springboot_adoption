@@ -365,7 +365,7 @@ const goToBoardingApply = () => {
       <div class="header-content">
         <div class="logo">
           <img 
-            :src="getImageUrl('@/assets/recommend-optimized.png', 'announcement')" 
+            :src="getImageUrl('@/assets/favicon.ico', 'announcement')"
             alt="宠物领养中心" 
             @error="(e) => e.target.src = defaultAnnouncementImg"
           />
@@ -760,7 +760,7 @@ const goToBoardingApply = () => {
       <div class="footer-content">
         <div class="footer-logo">
           <img 
-            :src="getImageUrl('@/assets/recommend-optimized.png', 'announcement')" 
+            :src="getImageUrl('@/assets/favicon.ico', 'announcement')"
             alt="宠物领养中心" 
             @error="(e) => e.target.src = defaultAnnouncementImg"
           />
