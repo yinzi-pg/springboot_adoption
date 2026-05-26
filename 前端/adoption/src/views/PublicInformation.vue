@@ -45,14 +45,22 @@ const pageNum = ref(1);
 const pageSize = ref(5);
 const total = ref(0);
 
+const loadData = () => {
+  if (searchKeyword.value.trim()) {
+    handleSearch();
+  } else {
+    getAllPublics();
+  }
+};
+
 const onSizeChange = (size) => {
   pageSize.value = size;
-  getAllPublics();
+  loadData();
 };
 
 const onCurrentChange = (num) => {
   pageNum.value = num;
-  getAllPublics();
+  loadData();
 };
 
 // 公告列表数据
@@ -143,9 +151,10 @@ const handleSearch = async () => {
     return;
   }
   try {
-    const result = await searchPublicService(keyword);
+    const result = await searchPublicService(keyword,pageNum.value,pageSize.value);
     if (result.code === 0) {
-      publics.value = result.data;
+      publics.value = result.data.items;
+      total.value = result.data.total;
       if (publics.value.length === 0) {
         ElMessage.info(`未找到包含"${keyword}"的公告`);
       }

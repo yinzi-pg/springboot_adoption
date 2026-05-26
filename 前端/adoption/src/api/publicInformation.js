@@ -23,8 +23,10 @@ export const publicDeleteService = (publicId)=>{
     return request.delete(`/public/${publicId}`);
 }
 //模糊查询
-export const searchPublicService = (keyword)=>{
+export const searchPublicService = (keyword,pageNum,pageSize)=>{
     return request.get("/public/searchPublic",{
-        params :{keyword}
+        params :{keyword,
+                pageNum,
+                pageSize}
     })
 }

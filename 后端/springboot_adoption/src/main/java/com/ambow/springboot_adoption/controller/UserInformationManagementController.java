@@ -2,6 +2,7 @@ package com.ambow.springboot_adoption.controller;
 
 import com.ambow.springboot_adoption.service.Impl.CZServiceImpl;
 import com.ambow.springboot_adoption.vo.PageBean;
+import com.ambow.springboot_adoption.vo.PublicInformation;
 import com.ambow.springboot_adoption.vo.Result;
 import com.ambow.springboot_adoption.vo.User;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -20,13 +21,12 @@ public class UserInformationManagementController {
 
     //模糊查询
     @GetMapping("selectUserByKeyWord")
-    public Result selectUserByKeyWord(@RequestParam("keyword") String keyword){
-        List<User> result = czService.selectUserByKeyword(keyword);
-        if (result.isEmpty()) {
-            return Result.success("");
-        }else {
-            return Result.success(result);
-        }
+    public Result selectUserByKeyWord(@RequestParam("keyword") String keyword,
+                                      @RequestParam("pageNum") int pageNum,
+                                      @RequestParam("pageSize") int pageSize){
+        IPage<User> result = czService.selectUserByKeyword(keyword,pageNum,pageSize);
+        PageBean<User> pageBean = new PageBean<>(result.getTotal(), result.getRecords());
+        return Result.success(pageBean);
     }
 
 

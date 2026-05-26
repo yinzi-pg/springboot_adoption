@@ -10,16 +10,23 @@ import { getUserList, userAddService, userDeleteService, userUpdateService, sear
 const pageNum = ref(1);//当前页码
 const pageSize = ref(5);//每页条数
 const total = ref(0);//总条数
-//每页条数改变
+const loadData = () => {
+  if (searchKeyword.value.trim()) {
+    handleSearch();
+  } else {
+    getAllPublics();
+  }
+};
+
 const onSizeChange = (size) => {
-    pageSize.value = size;
-    getAllUsers();
-}
-//当前页码改变
+  pageSize.value = size;
+  loadData();
+};
+
 const onCurrentChange = (num) => {
-    pageNum.value = num;
-    getAllUsers();
-}
+  pageNum.value = num;
+  loadData();
+};
 
 // 用户信息列表数据
 const users = ref([]);
@@ -115,9 +122,10 @@ const handleSearch = async () => {
   }
 
   try {
-    const result = await searchUserService(keyword);
+    const result = await searchUserService(keyword,pageNum.value,pageSize.value);
     if (result.code === 0) {
-      users.value = result.data;
+      users.value = result.data.items;
+      total.value = result.data.total;
       if (users.value.length === 0) {
         ElMessage.info(`未找到包含"${keyword}"的用户`);
       }

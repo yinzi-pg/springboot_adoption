@@ -57,10 +57,13 @@ public class AnnouncementInformationManagementController {
     }
     //模糊查询
     @GetMapping("searchPublic")
-    public Result searchPublic(@RequestParam("keyword") String keyword) {
-        List<PublicInformation> result = czService.findPublicByKeyword(keyword);
+    public Result searchPublic(@RequestParam("keyword") String keyword,
+                               @RequestParam("pageNum") int pageNum,
+                               @RequestParam("pageSize") int pageSize) {
+        IPage<PublicInformation> result = czService.findPublicByKeyword(keyword,pageNum,pageSize);
         if ( result !=null){
-            return Result.success(result);
+            PageBean<PublicInformation> pageBean = new PageBean<>(result.getTotal(), result.getRecords());
+            return Result.success(pageBean);
         }else {
             return Result.error("未找到相关信息");
         }
