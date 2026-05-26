@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class Result<T> {
+    public Result success;
     private   Integer code;   //状态码
     private String message;   //携带的返回信息
     private T data;  //携带的返回数据

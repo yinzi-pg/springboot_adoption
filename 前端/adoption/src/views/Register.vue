@@ -14,7 +14,6 @@ const router = useRouter();
 const loginService = () => {
     router.push('/login');
 };
-const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 const registerData = ref({
     userName: '',
     userPassword: '',
