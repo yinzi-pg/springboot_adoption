@@ -15,7 +15,8 @@ public class PetBoardingServiceImpl implements PetBoardingService {
     @Override
     public IPage<PetBoarding> selectAllPetBoarding(int pageNum, int pageSize) {
         IPage<PetBoarding> page = new Page<>(pageNum,pageSize);
-        return petBoardingMapper.selectAllPetBoarding(page);
+        IPage<PetBoarding> petBoardingIPage = petBoardingMapper.selectAllPetBoarding(page);
+        return petBoardingIPage;
     }
 
     @Override

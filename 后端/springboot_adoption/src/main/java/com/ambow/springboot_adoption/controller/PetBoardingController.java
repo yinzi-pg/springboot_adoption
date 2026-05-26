@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @ResponseBody
 @CrossOrigin
-@RequestMapping("/PetBoarding")
+@RequestMapping("/petBoarding/")
 public class PetBoardingController {
     @Autowired
     private PetBoardingService petBoardingService;
