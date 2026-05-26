@@ -58,10 +58,14 @@ const handleSearch = async () => {
     return
   }
   try {
-    const result = await searchPetService(searchKeyword.value.trim())
+    const params = {
+      pageNum: pageNum.value,
+      pageSize: pageSize.value
+    }
+      const result = await searchPetService(searchKeyword.value.trim(),params)
     if (result.code === 0) {
-      pets.value = result.data
-      total.value = result.data.length
+      pets.value = result.data.items
+      total.value = result.data.total
       if (result.data.length === 0) {
         ElMessage.info('未找到匹配的宠物信息')
       }
@@ -84,12 +88,20 @@ const resetSearch = () => {
 // 分页事件
 const onSizeChange = (size) => {
   pageSize.value = size
-  getAllPets()
+  if (searchKeyword.value.trim()) {
+    handleSearch()
+  } else {
+    getAllPets()
+  }
 }
 
 const onCurrentChange = (num) => {
   pageNum.value = num
-  getAllPets()
+  if (searchKeyword.value.trim()) {
+    handleSearch()
+  } else {
+    getAllPets()
+  }
 }
 
 // 状态样式映射

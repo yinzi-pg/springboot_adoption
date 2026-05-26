@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
         result.setCode(0);
         result.setMessage("登录成功");
         result.setData(user);
-        request.setAttribute("user", user);
+        request.getSession().setAttribute("user", user);
         return result;
     }
 
