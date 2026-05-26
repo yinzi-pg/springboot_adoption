@@ -6,8 +6,6 @@ import { ElMessage } from 'element-plus';
 import { useUserInfoStore } from '@/stores/user';
 import { registerService } from '@/api/user';
 
-const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
-
 const UserStore = useUserInfoStore();
 const router = useRouter();
 
