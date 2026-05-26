@@ -1,9 +1,9 @@
 package com.ambow.springboot_adoption.controller;
 
+import com.ambow.springboot_adoption.service.UserService;
 import com.ambow.springboot_adoption.service.VolunteerService;
 import com.ambow.springboot_adoption.vo.PageBean;
 import com.ambow.springboot_adoption.vo.Result;
-import com.ambow.springboot_adoption.vo.User;
 import com.ambow.springboot_adoption.vo.Volunteer;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,15 +48,13 @@ public class VolunteerController {
      //修改
     @PatchMapping("updateVolunteer")
     public Result updateVolunteer(@RequestBody Volunteer volunteer) {
-        int result = volunteerService.updateVolunteer(volunteer);
-        if (result > 0) {
-            return Result.success(result);
-        } else {
-            return Result.error("修改志愿者信息失败");
-        }
-
-
-
+//        int result = volunteerService.updateVolunteer(volunteer);
+//        if (result > 0) {
+//            return Result.success(result);
+//        } else {
+//            return Result.error("修改志愿者信息失败");
+//        }
+        return volunteerService.updateVolunteer(volunteer);
 
 //        // 1. 更新志愿者状态（使用原有服务方法名）
 //        int updateCount = volunteerService.updateVolunteer(volunteer);

@@ -5,8 +5,6 @@ import com.ambow.springboot_adoption.vo.PageBean;
 import com.ambow.springboot_adoption.vo.PetReport;
 import com.ambow.springboot_adoption.vo.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

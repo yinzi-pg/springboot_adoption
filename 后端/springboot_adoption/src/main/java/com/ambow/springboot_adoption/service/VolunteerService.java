@@ -17,7 +17,7 @@ public interface VolunteerService {
     Result addVolunteer(Volunteer volunteer);
 
     // 修改志愿者
-    int updateVolunteer(Volunteer volunteer);
+    Result updateVolunteer(Volunteer volunteer);
 
     // 删除志愿者
     int deleteVolunteer(Integer volunteerId);

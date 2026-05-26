@@ -18,6 +18,8 @@ public class User {
     private String userPassword;
     private String userGender;
     private Integer userAge;
+
+
     private String userPhone;
     private String userEmail;
     private String userRole;

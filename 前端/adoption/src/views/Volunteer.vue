@@ -264,7 +264,7 @@ const addVolunteer = async () => {
             getAllVolunteers();
             ElMessage.success('添加成功');
         } else {
-            ElMessage.error('添加失败：' + result.msg);
+            ElMessage.error('添加失败123：' + result.message);
         }
     } catch (error) {
         ElMessage.error('添加接口异常');
@@ -358,7 +358,7 @@ const updateVolunteer = async () => {
             resetVolunteerForm();
             getAllVolunteers();
         } else {
-            ElMessage.error('修改失败：' + result.msg);
+            ElMessage.error('修改失败：' + result.message);
         }
     } catch (error) {
         ElMessage.error('修改接口异常');
