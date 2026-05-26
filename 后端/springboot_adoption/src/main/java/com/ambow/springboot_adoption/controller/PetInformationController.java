@@ -22,10 +22,10 @@ public class PetInformationController {
 
     }
 
-     @GetMapping("search")
-    public Result searchPetService(  @RequestParam("keyword")  String keyword,
-                                     @RequestParam("pageNum") Integer pageNum,
-                                     @RequestParam("pageSize")  Integer pageSize) {
-         return petInformationService.searchPetService(keyword, pageNum, pageSize);
-     }
-}
+         @GetMapping("search")
+        public Result searchPetService(  @RequestParam("keyword")  String keyword,
+                                         @RequestParam("pageNum") Integer pageNum,
+                                         @RequestParam("pageSize")  Integer pageSize) {
+             return petInformationService.searchPetService(keyword, pageNum, pageSize);
+         }
+    }

@@ -12,7 +12,7 @@ const router = useRouter();
 const loginService = () => {
     router.push('/login');
 };
-
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 const registerData = ref({
     userName: '',
     userPassword: '',
@@ -93,7 +93,7 @@ const uploadSuccess = (result) => {
                                     :on-success="uploadSuccess" 
                                     name="file"
                                     :before-upload="beforeUpload">
-                                    <img v-if="registerData.avatar" :src="registerData.avatar" class="avatar" />
+                                    <img v-if="registerData.avatar" :src="BACKEND_BASE+registerData.avatar" class="avatar" />
                                     <div v-else class="upload-placeholder">
                                         <el-icon class="upload-icon">
                                             <Plus />

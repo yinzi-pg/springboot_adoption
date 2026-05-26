@@ -16,11 +16,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
        registry.addInterceptor(NoLoginInterceptor())
                .addPathPatterns("/**")
                .excludePathPatterns("/user/login","/user/register",
-                       "/user/",
-                       "/user/selectUserByKeyWord",
-                       "/user/updateUser",
-                       "/role/**",
-                       "/public/**",
+//                       "/user/",
+//                       "/user/selectUserByKeyWord",
+//                       "/user/updateUser",
+//                       "/role/**",
+//                       "/public/**",
                        "/upload/**",
                        "/images/**");
     }

@@ -29,7 +29,9 @@ export const searchPetService = (keyword,params) =>{
     return request.get("/pet/search",{
         params: {
             keyword:keyword,
-            params:params}
+            pageNum:params.pageNum,
+            pageSize:params.pageSize
+        }
     })
 }
 

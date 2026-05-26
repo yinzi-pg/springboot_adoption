@@ -36,7 +36,17 @@ public class PetInformationServiceImpl implements PetInformationService {
     public Result searchPetService(String keyword,Integer pageNum, Integer pageSize) {
         Result result = new Result();
         Page<Pet> page = new Page<>(pageNum, pageSize);
-
+        IPage<Pet> petIPage = petInformationMapper.searchPetMapper(page, keyword);
+        if (petIPage.getTotal() ==0) {
+            result.setCode(1);
+            result.setMessage("查询失败");
+        }
+        result.setCode(0);
+        result.setMessage("查询成功");
+        PageBean<Pet> pageBean = new PageBean<>();
+        pageBean.setTotal(petIPage.getTotal());
+        pageBean.setItems(petIPage.getRecords());
+        result.setData(pageBean);
         return result;
     }
 }

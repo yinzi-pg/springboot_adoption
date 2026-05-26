@@ -60,7 +60,7 @@ public class AnnouncementInformationManagementController {
     public Result searchPublic(@RequestParam("keyword") String keyword) {
         List<PublicInformation> result = czService.findPublicByKeyword(keyword);
         if ( result !=null){
-            return Result.success();
+            return Result.success(result);
         }else {
             return Result.error("未找到相关信息");
         }
