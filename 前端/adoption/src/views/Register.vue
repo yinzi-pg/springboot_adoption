@@ -6,6 +6,8 @@ import { ElMessage } from 'element-plus';
 import { useUserInfoStore } from '@/stores/user';
 import { registerService } from '@/api/user';
 
+
+
 const UserStore = useUserInfoStore();
 const router = useRouter();
 

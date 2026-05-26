@@ -1,15 +1,17 @@
 package com.ambow.springboot_adoption.controller;
 
+import com.ambow.springboot_adoption.dao.VolunteerMapper;
 import com.ambow.springboot_adoption.service.UserService;
+import com.ambow.springboot_adoption.service.VolunteerService;
 import com.ambow.springboot_adoption.vo.Result;
 import com.ambow.springboot_adoption.vo.User;
+import com.ambow.springboot_adoption.vo.Volunteer;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /*  注册
@@ -37,12 +39,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 *
 * */
 
-@Controller
+@RestController
 @RequestMapping("user")
 public class UserController {
 
    @Autowired
     private UserService userService;
+   @Autowired
+   private VolunteerService volunteerService;
+   @Autowired
+   private VolunteerMapper volunteerMapper;
 
    @RequestMapping("register")
    @ResponseBody
@@ -59,5 +65,41 @@ public class UserController {
        Result result = userService.login(username,password,request);
        return result;
 
+    }
+
+    //根据userId查询用户
+    @GetMapping("{userId}")
+    public Result getUserById(@PathVariable("userId") Integer userId){
+        User result = userService.selectUserByUserId(userId);
+        if (result != null){
+            return Result.success(result);
+        }else {
+            return Result.error("未查询到该信息");
+        }
+    }
+
+    //根据userId修改user_role
+    @PatchMapping("updateUserByUserId")
+    public Result updateUserByUserId(@RequestBody User user) {
+        // 1. 根据用户ID查询对应的志愿者信息
+        List<Volunteer> volunteers = volunteerService.selectVolunteerByUserId(user.getUserId());
+        if (volunteers == null || volunteers.isEmpty()) {
+            return Result.error("该用户未注册为志愿者");
+        }
+        Volunteer volunteer = volunteers.get(0); // 假设一个用户对应一个志愿者记录
+
+        // 2. 更新志愿者状态（此处可根据业务需求修改volunteer的字段）
+        int updateCount = volunteerMapper.updateVolunteer(volunteer);
+        if (updateCount <= 0) {
+            return Result.error("修改志愿者信息失败");
+        }
+
+        // 3. 若状态改为“已激活”，更新用户角色
+        if ("已激活".equals(volunteer.getVolunteerStatus())) {
+            user.setUserRole("volunteer");
+            userService.updateById(user);
+        }
+
+        return Result.success("更新成功");
     }
 }

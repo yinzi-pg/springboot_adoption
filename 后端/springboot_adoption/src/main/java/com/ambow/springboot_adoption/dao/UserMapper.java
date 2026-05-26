@@ -4,6 +4,7 @@ import com.ambow.springboot_adoption.vo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserMapper {
@@ -19,4 +20,13 @@ public interface UserMapper {
     User getUserByUserName(String userName);
 
 
+    //根据userId查询用户
+    @Select("select * from user where user_id = #{userId}")
+    User getUserById(Integer userId);
+
+    // 新增根据ID更新用户的方法（如果现有updateUser不满足需求）
+    @Update("UPDATE user \n" +
+            "    SET user_role = #{userRole}\n" +
+            "    WHERE user_id = #{userId}")
+    int updateUserById(User user);
 }

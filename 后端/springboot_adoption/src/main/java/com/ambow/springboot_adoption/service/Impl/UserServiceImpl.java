@@ -64,6 +64,17 @@ public class UserServiceImpl implements UserService {
         request.getSession().setAttribute("user", user);
         return result;
     }
+//根据id查询用户
+    @Override
+    public User selectUserByUserId(Integer userId) {
+        return userMapper.getUserById(userId);
+    }
+
+    @Override
+    // 根据ID更新用户
+    public int updateById(User user) {
+        return userMapper.updateUserById(user); // 复用已有的mapper方法
+    }
 
     private Result loginParameterValidation(String username, String password) {
       Result result = new Result();

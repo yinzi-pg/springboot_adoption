@@ -124,7 +124,8 @@ const rules = reactive({
     { required: true, message: '请输入发现地点', trigger: 'blur' }
   ],
   contactInfo: [
-    { required: true, message: '请输入联系方式', trigger: 'blur' }
+    { required: true, message: '请输入联系方式', trigger: 'blur' },
+    { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的11位手机号码', trigger: 'blur' }
   ]
 });
 
