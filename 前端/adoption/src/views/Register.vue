@@ -6,6 +6,8 @@ import { ElMessage } from 'element-plus';
 import { useUserInfoStore } from '@/stores/user';
 import { registerService } from '@/api/user';
 
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
+
 const UserStore = useUserInfoStore();
 const router = useRouter();
 
@@ -75,7 +77,8 @@ const uploadSuccess = (result) => {
                     </div>
                 </div>
             </div>
-            
+
+
             <!-- 右侧注册表单区 -->
             <div class="form-section">
                 <el-card class="register-card" shadow="hover">
@@ -93,7 +96,7 @@ const uploadSuccess = (result) => {
                                     :on-success="uploadSuccess" 
                                     name="file"
                                     :before-upload="beforeUpload">
-                                    <img v-if="registerData.avatar" :src="registerData.avatar" class="avatar" />
+                                    <img v-if="registerData.avatar" :src="BACKEND_BASE+registerData.avatar" class="avatar" />
                                     <div v-else class="upload-placeholder">
                                         <el-icon class="upload-icon">
                                             <Plus />
