@@ -10,12 +10,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PetSuppliers {
+public class PetSupplies {
     private Integer supplyId;
     private String supplyName;
     private String supplyType;
     private String brand;
     private double price;
+    private String status;
     private Integer stock;
     private String description;
     private String supplyImage;

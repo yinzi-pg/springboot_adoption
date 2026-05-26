@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserPetBoardingMapper {
 
-    @Select("")
+    @Select("select * from userpet_boarding")
     IPage<UserPetBoarding> selectAllUserPetBoarding(IPage<PetBoarding> page);
 }
