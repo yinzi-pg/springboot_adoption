@@ -45,12 +45,22 @@ const total = ref(0);//总条数
 //每页条数改变
 const onSizeChange = (size) => {
     pageSize.value = size;
-    getAllPets();
+    if (searchKeyword.value.trim()==null){
+      getAllPets();
+    }else {
+      handleSearch();
+    }
+
 }
 //当前页码改变
 const onCurrentChange = (num) => {
     pageNum.value = num;
-    getAllPets();
+    if (searchKeyword.value.trim()==null){
+      getAllPets();
+    }else {
+      handleSearch();
+    }
+
 }
 
 // 宠物信息列表数据
@@ -112,10 +122,15 @@ const handleSearch = async () => {
         return;
     }
     try {
-        const result = await searchPetService(searchKeyword.value.trim());
+      let params = {
+        pageNum: pageNum.value,
+        pageSize: pageSize.value
+      }
+        const result = await searchPetService(searchKeyword.value.trim(),params);
         if (result.code === 0) {
-            pets.value = result.data;
-            if (result.data.length === 0) {
+          pets.value = result.data.items;
+          total.value = result.data.total;
+            if (result.data.items.length === 0) {
                 ElMessage.info('未找到匹配的宠物信息');
             }
         } else {
