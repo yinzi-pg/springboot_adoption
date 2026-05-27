@@ -14,7 +14,7 @@ const loadData = () => {
   if (searchKeyword.value.trim()) {
     handleSearch();
   } else {
-    getAllPublics();
+    getAllUsers();
   }
 };
 
