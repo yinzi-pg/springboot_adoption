@@ -76,6 +76,15 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateUserById(user); // 复用已有的mapper方法
     }
 
+    @Override
+    public Result userAddMoney(Integer userId, Integer amount) {
+        Integer i = userMapper.userAddMoney(userId, amount);
+        if (i != 1){
+          return   Result.error("充值失败");
+        }
+        return  Result.success();
+    }
+
     private Result loginParameterValidation(String username, String password) {
       Result result = new Result();
         if (StringUtils.isBlank(username)) {

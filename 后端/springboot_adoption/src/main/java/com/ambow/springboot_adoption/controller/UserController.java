@@ -102,4 +102,9 @@ public class UserController {
 
         return Result.success("更新成功");
     }
+
+    @PostMapping("addMoney")
+    public Result userAddMoney(@RequestParam("userId") Integer userId,@RequestParam("amount") Integer amount) {
+     return    userService.userAddMoney(userId,amount);
+    }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/adoption/")
 @CrossOrigin
 public class AdoptionController {
-        @Autowired
+          @Autowired
     private AdoptionService adoptionService;
         //查全部
     @GetMapping
