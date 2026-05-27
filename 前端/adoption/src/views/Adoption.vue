@@ -243,9 +243,11 @@ const handleSearch = async () => {
   }
   try {
     loading.value = true
-    const result = await searchAdoptionService(searchKeyword.value.trim());
+    const result = await searchAdoptionService(searchKeyword.value.trim(), pageNum.value,
+        pageSize.value);
     if (result.code === 0) {
-      adoptions.value = result.data;
+      adoptions.value = result.data.records;
+      total.value = result.data.pages;
       if (result.data.length === 0) {
         ElMessage.info('未找到匹配的领养记录');
       }
