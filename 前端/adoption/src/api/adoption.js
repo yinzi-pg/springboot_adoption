@@ -19,8 +19,9 @@ export const adoptionDeleteService = (adoptionId) =>{
     return request.delete(`/adoption/${adoptionId}`);
 }
 //模糊查询
-export const searchAdoptionService = (keyword) =>{
+export const searchAdoptionService = (keyword, pageNum, pageSize) =>{
     return request.get("/adoption/search",{
-        params :{keyword}
+        params :{ keyword, pageNum, pageSize }
     })
+
 }
