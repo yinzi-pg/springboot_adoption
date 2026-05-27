@@ -18,8 +18,9 @@ public class CZServiceImpl {
 
 
     //模糊查询
-    public List<User> selectUserByKeyword(String keyword){
-        return czMapper.findUserByKeyword(keyword);
+    public IPage<User> selectUserByKeyword(String keyword, int pageNum, int pageSize){
+        Page<User> page = new Page<>(pageNum, pageSize);
+        return czMapper.findUserByKeyword(keyword,page);
     }
     //分页查询
     public IPage<User> selectUserByPage(int pageNum, int pageSize){
@@ -79,7 +80,8 @@ public class CZServiceImpl {
         return czMapper.deleteInformation(publicId);
     }
     //模糊查询
-    public List<PublicInformation> findPublicByKeyword(String keyword){
-        return czMapper.findInformationByKeyword(keyword);
+    public IPage<PublicInformation> findPublicByKeyword(String keyword , int pageNum, int pageSize){
+        Page<PublicInformation> page = new Page<>(pageNum, pageSize);
+        return czMapper.findInformationByKeyword(keyword,page);
     }
 }

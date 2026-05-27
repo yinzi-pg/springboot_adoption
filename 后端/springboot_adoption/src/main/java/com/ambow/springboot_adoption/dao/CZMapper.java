@@ -17,12 +17,11 @@ public interface CZMapper {
 
     //模糊查询用户
     @Select("select * from user where\n" +
-            "    user_id    like concat('%', #{keyword}, '%') or\n" +
             "    user_name   like concat('%', #{keyword}, '%') or\n" +
             "    user_phone  like concat('%', #{keyword}, '%') or\n" +
             "    user_email  like concat('%', #{keyword}, '%') or\n" +
             "    user_role   like concat('%', #{keyword}, '%')")
-    List<User> findUserByKeyword(@Param("keyword") String keyword);
+    IPage<User> findUserByKeyword(@Param("keyword") String keyword,IPage<User> page);
 
     //分页查询
     @Select("select * from user")
@@ -115,7 +114,7 @@ public interface CZMapper {
             "  publish_time = #{publishTime},\n" +
             "  create_date = now(),\n" +
             "  public_image = #{publicImage}" +
-            "WHERE public_id = #{publicId}")
+            "  WHERE public_id = #{publicId}")
     int updateInformation(PublicInformation information);
 
     // 模糊查询
@@ -134,5 +133,5 @@ public interface CZMapper {
             "  content LIKE CONCAT('%', #{keyword}, '%') OR\n" +
             "  author LIKE CONCAT('%', #{keyword}, '%') OR\n" +
             "  status LIKE CONCAT('%', #{keyword}, '%')")
-    List<PublicInformation> findInformationByKeyword(String keyword);
+    IPage<PublicInformation> findInformationByKeyword(String keyword,IPage<PublicInformation> page);
 }

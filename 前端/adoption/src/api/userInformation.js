@@ -47,8 +47,10 @@ export const userDeleteService = (userId)=>{
     return request.delete(`/user/${userId}`);
 }
 //模糊查询
-export const searchUserService = (keyword)=>{
+export const searchUserService = (keyword,pageNum,pageSize)=>{
     return request.get("/user/selectUserByKeyWord",{
-        params :{keyword}
+        params :{keyword,
+                pageNum,
+                pageSize}
     })
 }
