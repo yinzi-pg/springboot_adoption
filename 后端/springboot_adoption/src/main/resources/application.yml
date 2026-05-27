@@ -3,9 +3,9 @@ spring:
     name: springboot_adoption
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/adoption?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/yjx_db?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: root
+    password: Mysql@888888
   servlet:
     multipart:
           max-file-size: 10MB  # 单个文件最大大小

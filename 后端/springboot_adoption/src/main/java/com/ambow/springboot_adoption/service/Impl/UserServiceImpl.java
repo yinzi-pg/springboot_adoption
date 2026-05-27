@@ -76,6 +76,41 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateUserById(user); // 复用已有的mapper方法
     }
 
+    @Override
+    public Result addMoney(Integer userId, java.math.BigDecimal amount) {
+        if (amount == null || amount.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            return Result.error("充值金额必须大于0");
+        }
+        User user = selectUserByUserId(userId);
+        if (user == null) {
+            return Result.error("用户不存在");
+        }
+        if (user.getMoney() == null) {
+            user.setMoney(amount);
+        } else {
+            user.setMoney(user.getMoney().add(amount));
+        }
+        int i = updateById(user);
+        return i > 0 ? Result.success() : Result.error("充值失败");
+    }
+
+    @Override
+    public Result deleteMoney(Integer userId, java.math.BigDecimal amount) {
+        if (amount == null || amount.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            return Result.error("扣款金额必须大于0");
+        }
+        User user = selectUserByUserId(userId);
+        if (user == null) {
+            return Result.error("用户不存在");
+        }
+        if (user.getMoney() == null || user.getMoney().compareTo(amount) < 0) {
+            return Result.error("余额不足");
+        }
+        user.setMoney(user.getMoney().subtract(amount));
+        int i = updateById(user);
+        return i > 0 ? Result.success() : Result.error("扣款失败");
+    }
+
     private Result loginParameterValidation(String username, String password) {
       Result result = new Result();
         if (StringUtils.isBlank(username)) {

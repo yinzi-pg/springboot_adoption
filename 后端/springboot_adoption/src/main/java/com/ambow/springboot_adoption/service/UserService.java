@@ -13,4 +13,7 @@ public interface UserService {
      User selectUserByUserId(Integer userId);
 
      int updateById(User user);//
+
+     Result addMoney(Integer userId, java.math.BigDecimal amount);
+     Result deleteMoney(Integer userId, java.math.BigDecimal amount);
 }

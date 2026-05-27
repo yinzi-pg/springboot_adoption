@@ -43,18 +43,16 @@
     </div>
 
     <el-card class="cart-container">
-      <template #empty>
-        <div class="empty-cart">
-          <div class="empty-icon"><ShoppingCart /></div>
-          <p class="empty-text">购物车还是空的哦~</p>
-          <el-button 
-            type="primary" 
-            @click="router.push('/user-pet-supply')"
-          >
-            去逛逛
-          </el-button>
-        </div>
-      </template>
+      <div v-if="cartItems.length === 0" class="empty-cart">
+        <div class="empty-icon"><ShoppingCart /></div>
+        <p class="empty-text">购物车还是空的哦~</p>
+        <el-button 
+          type="primary" 
+          @click="router.push('/userPetSupply')"
+        >
+          去逛逛
+        </el-button>
+      </div>
 
       <el-table 
         v-if="cartItems.length > 0"

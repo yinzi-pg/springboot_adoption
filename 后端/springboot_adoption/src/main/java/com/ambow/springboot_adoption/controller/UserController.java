@@ -82,24 +82,31 @@ public class UserController {
     @PatchMapping("updateUserByUserId")
     public Result updateUserByUserId(@RequestBody User user) {
         // 1. 根据用户ID查询对应的志愿者信息
-        List<Volunteer> volunteers = volunteerService.selectVolunteerByUserId(user.getUserId());
-        if (volunteers == null || volunteers.isEmpty()) {
+        Volunteer volunteer = volunteerService.selectVolunteerByUserId(user.getUserId());
+        if (volunteer == null) {
             return Result.error("该用户未注册为志愿者");
         }
-        Volunteer volunteer = volunteers.get(0); // 假设一个用户对应一个志愿者记录
 
         // 2. 更新志愿者状态（此处可根据业务需求修改volunteer的字段）
-        int updateCount = volunteerMapper.updateVolunteer(volunteer);
-        if (updateCount <= 0) {
-            return Result.error("修改志愿者信息失败");
-        }
+        // 如果这里本来是为了更新用户状态，现在在 VolunteerServiceImpl 的 updateVolunteer 中已经实现联动
+        volunteerService.updateVolunteer(volunteer);
 
-        // 3. 若状态改为“已激活”，更新用户角色
+        // 3. 若状态改为“已激活”，更新用户角色 (在 Service 中已包含逻辑，这里为了兼容现有代码进行二次调用)
         if ("已激活".equals(volunteer.getVolunteerStatus())) {
             user.setUserRole("volunteer");
             userService.updateById(user);
         }
 
         return Result.success("更新成功");
+    }
+
+    @PostMapping("addMoney")
+    public Result addMoney(@RequestParam("userId") Integer userId, @RequestParam("amount") java.math.BigDecimal amount) {
+        return userService.addMoney(userId, amount);
+    }
+
+    @PostMapping("deleteMoney")
+    public Result deleteMoney(@RequestParam("userId") Integer userId, @RequestParam("amount") java.math.BigDecimal amount) {
+        return userService.deleteMoney(userId, amount);
     }
 }

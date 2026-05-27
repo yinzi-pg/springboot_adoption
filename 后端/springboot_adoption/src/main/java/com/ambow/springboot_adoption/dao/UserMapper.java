@@ -24,9 +24,20 @@ public interface UserMapper {
     @Select("select * from user where user_id = #{userId}")
     User getUserById(Integer userId);
 
-    // 新增根据ID更新用户的方法（如果现有updateUser不满足需求）
-    @Update("UPDATE user \n" +
-            "    SET user_role = #{userRole}\n" +
-            "    WHERE user_id = #{userId}")
+    @Update("<script>" +
+            "UPDATE user " +
+            "<set>" +
+            "<if test='userName != null'>user_name = #{userName},</if>" +
+            "<if test='userPassword != null'>user_password = #{userPassword},</if>" +
+            "<if test='userGender != null'>user_gender = #{userGender},</if>" +
+            "<if test='userAge != null'>user_age = #{userAge},</if>" +
+            "<if test='userPhone != null'>user_phone = #{userPhone},</if>" +
+            "<if test='userEmail != null'>user_email = #{userEmail},</if>" +
+            "<if test='userRole != null'>user_role = #{userRole},</if>" +
+            "<if test='avatar != null'>avatar = #{avatar},</if>" +
+            "<if test='money != null'>money = #{money},</if>" +
+            "</set>" +
+            "WHERE user_id = #{userId}" +
+            "</script>")
     int updateUserById(User user);
 }

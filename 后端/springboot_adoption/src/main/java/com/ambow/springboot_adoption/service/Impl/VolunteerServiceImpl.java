@@ -1,108 +1,102 @@
-package com.ambow.springboot_adoption.service.Impl;
+package com.ambow.springboot_adoption.service.impl;
 
 import com.ambow.springboot_adoption.dao.UserMapper;
 import com.ambow.springboot_adoption.dao.VolunteerMapper;
 import com.ambow.springboot_adoption.service.VolunteerService;
-import com.ambow.springboot_adoption.vo.Result;
+import com.ambow.springboot_adoption.vo.PageBean;
 import com.ambow.springboot_adoption.vo.User;
 import com.ambow.springboot_adoption.vo.Volunteer;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
-public class VolunteerServiceImpl implements VolunteerService {
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-    @Autowired
-    private VolunteerMapper volunteerMapper;
+@Service
+public class VolunteerServiceImpl extends ServiceImpl<VolunteerMapper, Volunteer> implements VolunteerService {
+
     @Autowired
     private UserMapper userMapper;
 
-    // 分页查询全部
     @Override
-    public IPage<Volunteer> selectAllVolunteerPage(int pageNum, int pageSize) {
-        Page<Volunteer> page = new Page<>(pageNum, pageSize);
-        return volunteerMapper.selectAllVolunteerPage(page);
+    public PageBean<Volunteer> getVolunteerList(Integer userId, Integer pageNum, Integer pageSize) {
+        Page<Volunteer> page = new Page<>(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
+        QueryWrapper<Volunteer> queryWrapper = new QueryWrapper<>();
+        if (userId != null) {
+            queryWrapper.eq("user_id", userId);
+        }
+        Page<Volunteer> resultPage = this.page(page, queryWrapper);
+        return new PageBean<>(resultPage.getTotal(), resultPage.getRecords());
     }
 
-     //新增
-//    @Override
-//    public int addVolunteer(Volunteer volunteer) {
-//        return volunteerMapper.addVolunteer(volunteer);
-//    }
-
-
-        @Override
-        public Result addVolunteer(Volunteer volunteer) {
-            // 1. 校验关联用户ID
-            if (volunteer.getUserId() == null) {
-                return Result.error("关联用户ID不能为空");
-            }
-            User user=userMapper.getUserById(volunteer.getUserId());
-            if (user==null) {
-                return Result.error("关联用户查询不到");
-            }
-            // 2. 校验服务类型
-            if (volunteer.getVolunteerType() == null || volunteer.getVolunteerType().trim().isEmpty()) {
-                return Result.error("服务类型不能为空");
-            }
-            // 3. 校验服务时长
-            if (volunteer.getServiceHours() < 0) {
-                return Result.error("服务时长必须大于或等于0");
-            }
-            // 4. 校验志愿者状态
-            if (volunteer.getVolunteerStatus() == null || volunteer.getVolunteerStatus().trim().isEmpty()) {
-                return Result.error("志愿者状态不能为空");
-            }
-
-            // 校验通过，执行插入操作
-            int result = volunteerMapper.addVolunteer(volunteer);
-            if (result > 0) {
-                return Result.success(result);   // 成功时返回影响行数
-            } else {
-                return Result.error("新增志愿者信息失败");
-            }
-        }
-
-
-    // 修改
     @Override
-    public Result updateVolunteer(Volunteer volunteer) {
-        if (volunteer.getUserId() == null) {
-            return Result.error("关联用户ID不能为空");
+    public Volunteer selectVolunteerByUserId(Integer userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID不能为空");
         }
-        User user=userMapper.getUserById(volunteer.getUserId());
-        if (user==null) {
-            return Result.error("关联用户查询不到");
-        }
-        if (volunteer.getServiceHours() < 0) {
-            return Result.error("服务时长必须大于或等于0");
-        }
-        int update=volunteerMapper.updateVolunteer(volunteer);
-        if (update > 0) {
-            return Result.success("修改成功");
-        }
-        return Result.error("修改失败");
+        QueryWrapper<Volunteer> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        return this.getOne(queryWrapper);
     }
 
-    // 删除
     @Override
-    public int deleteVolunteer(Integer volunteerId) {
-        return volunteerMapper.deleteVolunteer(volunteerId);
+    public void addVolunteer(Volunteer volunteer) {
+        if (volunteer == null) {
+            throw new IllegalArgumentException("志愿信息不能为空");
+        }
+        if (volunteer.getServiceHours() != null && volunteer.getServiceHours().compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("服务时长不能为负数");
+        }
+        volunteer.setCreateTime(LocalDateTime.now());
+        if (volunteer.getVolunteerStatus() == null) {
+            volunteer.setVolunteerStatus("待认证");
+        }
+        this.save(volunteer);
     }
 
-    // 模糊查询
     @Override
-    public List<Volunteer> findVolunteerByKeyword(String keyword) {
-        return volunteerMapper.findVolunteerByKeyword(keyword);
+    @Transactional(rollbackFor = Exception.class)
+    public void updateVolunteer(Volunteer volunteer) {
+        if (volunteer == null || volunteer.getVolunteerId() == null) {
+            throw new IllegalArgumentException("志愿信息或ID不能为空");
+        }
+        if (volunteer.getServiceHours() != null && volunteer.getServiceHours().compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("服务时长不能为负数");
+        }
+        
+        // 校验修改前和修改后的状态
+        if ("已激活".equals(volunteer.getVolunteerStatus()) && volunteer.getUserId() != null) {
+            User user = userMapper.getUserById(volunteer.getUserId());
+            if (user != null && !"volunteer".equals(user.getUserRole())) {
+                user.setUserRole("volunteer");
+                userMapper.updateUserById(user);
+            }
+        }
+        this.updateById(volunteer);
     }
 
-    // 根据user_id查询
     @Override
-    public List<Volunteer> selectVolunteerByUserId(Integer userId) {
-        return volunteerMapper.selectByUserId(userId);
+    public void deleteVolunteer(Integer volunteerId) {
+        if (volunteerId == null) {
+            throw new IllegalArgumentException("志愿者ID不能为空");
+        }
+        this.removeById(volunteerId);
+    }
+
+    @Override
+    public List<Volunteer> searchVolunteerService(String keyword) {
+        QueryWrapper<Volunteer> queryWrapper = new QueryWrapper<>();
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            queryWrapper.like("volunteer_type", keyword)
+                        .or().like("volunteer_status", keyword)
+                        .or().like("remark", keyword);
+        }
+        return this.list(queryWrapper);
     }
 }

@@ -640,10 +640,6 @@ const handleSearch = async () => {
     if (result.code === 0) {
       let volunteerList = result.data || []
       
-      // 使用Pinia中的用户ID筛选自己的记录
-      const currentUserId = userInfo.value?.userId || volunteerModel.userId
-      volunteerList = volunteerList.filter(item => item.userId == currentUserId)
-      
       // 补充用户信息
       for (const volunteer of volunteerList) {
         await fillUserInfo(volunteer)

@@ -14,18 +14,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@TableName("pet_supplies")
-public class PetSupplies {
+@TableName("`order`")
+public class Order {
     @TableId(type = IdType.AUTO)
-    private Integer supplyId;
-    private String supplyName;
-    private String supplyType;
-    private String brand;
-    private BigDecimal price;
+    private Integer orderId;
+    private Integer userId;
+    private String userName;
+    private String userPhone;
+    private BigDecimal totalAmount;
     private String status;
-    private Integer stock;
-    private String description;
-    private String supplyImage;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createDate;
+    private LocalDateTime createTime;
+    private String remark;
 }

@@ -8,24 +8,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@TableName("pet_supplies")
-public class PetSupplies {
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("adoption")
+public class Adoption {
     @TableId(type = IdType.AUTO)
-    private Integer supplyId;
-    private String supplyName;
-    private String supplyType;
-    private String brand;
-    private BigDecimal price;
-    private String status;
-    private Integer stock;
-    private String description;
-    private String supplyImage;
+    private Integer adoptionId;
+    private String applicantName;
+    private String applicantPhone;
+    private Integer petId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createDate;
+    private LocalDateTime applyDate;
+    private String status;
+    private String remark;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime reviewDate;
 }
