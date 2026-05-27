@@ -13,6 +13,15 @@ public class Pet {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createDate;
     private String petGender;
+    private String petDesc;
+
+    public String getPetDesc() {
+        return petDesc;
+    }
+
+    public void setPetDesc(String petDesc) {
+        this.petDesc = petDesc;
+    }
 
     public String getPetGender() {
         return petGender;

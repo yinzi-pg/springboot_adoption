@@ -1,6 +1,7 @@
 package com.ambow.springboot_adoption.service.Impl;
 
 import com.ambow.springboot_adoption.dao.PetInformationMapper;
+import com.ambow.springboot_adoption.model.PetModel;
 import com.ambow.springboot_adoption.service.PetInformationService;
 import com.ambow.springboot_adoption.vo.PageBean;
 import com.ambow.springboot_adoption.vo.Pet;
@@ -48,5 +49,35 @@ public class PetInformationServiceImpl implements PetInformationService {
         pageBean.setItems(petIPage.getRecords());
         result.setData(pageBean);
         return result;
+    }
+
+    @Override
+    public Result addPet(PetModel petModel) {
+        Integer i = petInformationMapper.addPet(petModel);
+        if (i != 1){
+          return   Result.error("添加失败");
+
+        }
+        return Result.success();
+
+    }
+
+    @Override
+    public Result updatePet(PetModel petModel) {
+        Integer i = petInformationMapper.updatePet(petModel);
+        if (i != 1){
+            return Result.error("更新失败");
+
+        }
+        return Result.success();
+    }
+
+    @Override
+    public Result deletePet(Integer petId) {
+        Integer i = petInformationMapper.deletePet(petId);
+        if (i != 1){
+            return Result.error("删除失败");
+        }
+        return Result.success();
     }
 }
