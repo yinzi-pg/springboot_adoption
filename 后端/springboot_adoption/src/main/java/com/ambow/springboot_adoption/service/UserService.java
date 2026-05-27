@@ -13,4 +13,7 @@ public interface UserService {
      User selectUserByUserId(Integer userId);
 
      int updateById(User user);//
+
+     Result userAddMoney(Integer userId, Integer amount);
+
 }
