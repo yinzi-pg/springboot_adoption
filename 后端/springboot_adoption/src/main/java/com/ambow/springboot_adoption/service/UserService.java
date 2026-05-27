@@ -10,4 +10,7 @@ public interface UserService {
 
      Result login(String username, String password, HttpServletRequest request);
 
+     User selectUserByUserId(Integer userId);
+
+     int updateById(User user);//
 }

@@ -231,7 +231,7 @@ const login = async () => {
             }
             
         } else {
-            ElMessage.error(result.msg || "登录失败");
+            ElMessage.error(result.message || "登录失败");
         }
     } catch (error) {
         ElMessage.error("登录过程出错，请重试");
