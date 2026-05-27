@@ -29,4 +29,8 @@ public interface UserMapper {
             "    SET user_role = #{userRole}\n" +
             "    WHERE user_id = #{userId}")
     int updateUserById(User user);
+    @Update("update user " +
+            "set money = money + #{amount}" +
+            " where user_id = #{userId}")
+    Integer userAddMoney(Integer userId, Integer amount);
 }
