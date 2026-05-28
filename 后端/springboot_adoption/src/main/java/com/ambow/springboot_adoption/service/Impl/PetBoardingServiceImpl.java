@@ -1,5 +1,7 @@
 package com.ambow.springboot_adoption.service.Impl;
 
+import com.ambow.springboot_adoption.dao.UserPetBoardingMapper;
+import com.ambow.springboot_adoption.vo.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ambow.springboot_adoption.dao.PetBoardingMapper;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class PetBoardingServiceImpl implements PetBoardingService {
     @Autowired
     private PetBoardingMapper petBoardingMapper;
+
     @Override
     public IPage<PetBoarding> selectAllPetBoarding(int pageNum, int pageSize) {
         IPage<PetBoarding> page = new Page<>(pageNum,pageSize);
@@ -20,8 +23,31 @@ public class PetBoardingServiceImpl implements PetBoardingService {
     }
 
     @Override
-    public IPage<PetBoarding> addPetBoarding(int pageNum, int pageSize) {
-        IPage<PetBoarding> page = new Page<>(pageNum,pageSize);
-        return petBoardingMapper.addPetBoarding(page);
+    public Result addPetBoarding(PetBoarding petBoarding) {
+        Integer i = petBoardingMapper.addPetBoarding(petBoarding);
+        if (i != 1){
+            return Result.error("添加失败");
+        }
+        return Result.success();
     }
+
+    @Override
+    public Result updatePetBoarding(PetBoarding petBoarding) {
+        Integer i = petBoardingMapper.updatePetBoarding(petBoarding);
+        if (1 != 1){
+            return Result.error("更新失败");
+        }
+        return Result.success();
+    }
+
+    @Override
+    public Result deletePetBoarding(PetBoarding petBoarding) {
+        Integer i = petBoardingMapper.deletePetBoarding(petBoarding);
+        if (i != 1){
+            return Result.error("删除失败");
+        }
+        return Result.success();
+    }
+
+
 }

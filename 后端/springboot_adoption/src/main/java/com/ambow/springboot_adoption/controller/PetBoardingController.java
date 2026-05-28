@@ -5,6 +5,7 @@ import com.ambow.springboot_adoption.service.PetBoardingService;
 import com.ambow.springboot_adoption.vo.PageBean;
 import com.ambow.springboot_adoption.vo.PetBoarding;
 import com.ambow.springboot_adoption.vo.Result;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,15 +28,24 @@ public class PetBoardingController {
         return result.success(pageBean);
     }
 //添加
-    @GetMapping("/addPetBoarding/")
-    public Result addPetBoarding(@RequestParam("pageNum") int pageNum ,
-                                 @RequestParam("pageSize") int pageSize){
-        Result result = new Result<>();
-        IPage<PetBoarding> page = petBoardingService.addPetBoarding(pageNum,pageSize);
-        PageBean<PetBoarding> pageBean = new PageBean<>(page.getTotal(),page.getRecords());
-        return result.success(pageBean);
+
+    @PostMapping("addPetBoarding")
+    public Result addPetBoarding(@RequestBody PetBoarding petBoarding){
+        return petBoardingService.addPetBoarding(petBoarding);
     }
 
+//    修改
+    @PatchMapping ("updatePetBoarding")
+    public Result updatePetBoarding(PetBoarding petBoarding){
+        return petBoardingService.updatePetBoarding(petBoarding);
+
+}
     //删除
+    @DeleteMapping("{boardingId}")
+    public Result deletePetBoarding(PetBoarding petBoarding){
+        return petBoardingService.deletePetBoarding(petBoarding);
+    }
+
+    //模糊查询
 
 }
