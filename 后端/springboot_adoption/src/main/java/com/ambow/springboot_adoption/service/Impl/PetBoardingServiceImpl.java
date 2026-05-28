@@ -10,6 +10,8 @@ import com.ambow.springboot_adoption.vo.PetBoarding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PetBoardingServiceImpl implements PetBoardingService {
     @Autowired
@@ -34,19 +36,28 @@ public class PetBoardingServiceImpl implements PetBoardingService {
     @Override
     public Result updatePetBoarding(PetBoarding petBoarding) {
         Integer i = petBoardingMapper.updatePetBoarding(petBoarding);
-        if (1 != 1){
+        if (i != 1){
             return Result.error("更新失败");
         }
         return Result.success();
     }
 
     @Override
-    public Result deletePetBoarding(PetBoarding petBoarding) {
-        Integer i = petBoardingMapper.deletePetBoarding(petBoarding);
+    public Result deletePetBoarding(Integer boardingId) {
+        Integer i = petBoardingMapper.deletePetBoarding(boardingId);
         if (i != 1){
             return Result.error("删除失败");
         }
         return Result.success();
+    }
+
+    @Override
+    public Result searchUserPetBoarding(String keyword) {
+        List<PetBoarding> i = petBoardingMapper.searchUserPetBoarding(keyword);
+        if (i != null){
+            return Result.success(i);
+        }
+        return Result.error("未查询到相关信息");
     }
 
 

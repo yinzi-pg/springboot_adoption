@@ -57,6 +57,17 @@ public class UserPetBoardingController {
         return Result.success();
     }
 
+//    模糊查询
+    @GetMapping("searchUserPetBoarding")
+    public Result searchUserPetBoarding(@RequestParam("keyword") String keyword){
+        return userPetBoardingService.searchUserPetBoarding(keyword);
+    }
+
+    @GetMapping("GetImageByUserPetId/{userPetId}")
+    public Result getImageByUserPetId(@PathVariable("userPetId") Integer userPetId){
+        return userPetBoardingService.getImageByUserPetId(userPetId);
+    }
+
 //    根据userId查询用户宠物寄养信息
     @GetMapping("byUserId/{userId}")
     public Result selectUserPetBoardingByUserId(@PathVariable("userId") Integer userId){

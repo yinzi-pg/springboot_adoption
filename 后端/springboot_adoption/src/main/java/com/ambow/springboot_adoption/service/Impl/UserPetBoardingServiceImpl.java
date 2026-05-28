@@ -3,6 +3,7 @@ package com.ambow.springboot_adoption.service.Impl;
 import com.ambow.springboot_adoption.dao.UserPetBoardingMapper;
 import com.ambow.springboot_adoption.service.UserPetBoardingService;
 import com.ambow.springboot_adoption.vo.PetBoarding;
+import com.ambow.springboot_adoption.vo.Result;
 import com.ambow.springboot_adoption.vo.UserPetBoarding;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -44,5 +45,23 @@ public class UserPetBoardingServiceImpl implements UserPetBoardingService {
     @Override
     public String selectPetSizeByUserPetId(Integer userPetId) {
         return userPetBoardingMapper.selectPetSizeByUserPetId(userPetId);
+    }
+
+    @Override
+    public Result getImageByUserPetId(Integer userPetId) {
+        String i = userPetBoardingMapper.getImageByUserPetId(userPetId);
+        if (i != null){
+            return Result.success(i);
+        }
+        return Result.error("未查询到图片");
+    }
+
+    @Override
+    public Result searchUserPetBoarding(String keyword) {
+        List<UserPetBoarding> i = userPetBoardingMapper.searchUserPetBoarding(keyword);
+        if (i != null){
+            return Result.success(i);
+        }
+        return Result.error("未查询到相关信息");
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @ResponseBody
 @CrossOrigin
@@ -36,16 +38,20 @@ public class PetBoardingController {
 
 //    修改
     @PatchMapping ("updatePetBoarding")
-    public Result updatePetBoarding(PetBoarding petBoarding){
+    public Result updatePetBoarding(@RequestBody PetBoarding petBoarding){
         return petBoardingService.updatePetBoarding(petBoarding);
 
 }
     //删除
     @DeleteMapping("{boardingId}")
-    public Result deletePetBoarding(PetBoarding petBoarding){
-        return petBoardingService.deletePetBoarding(petBoarding);
+    public Result deletePetBoarding(@PathVariable Integer boardingId){
+        return petBoardingService.deletePetBoarding(boardingId);
     }
 
     //模糊查询
+    @GetMapping("searchPetBoarding")
+    public Result searchUserPetBoarding(@RequestParam("keyword") String keyword){
+        return petBoardingService.searchUserPetBoarding(keyword);
+    }
 
 }

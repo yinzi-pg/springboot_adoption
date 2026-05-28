@@ -1,6 +1,7 @@
 package com.ambow.springboot_adoption.dao;
 
 import com.ambow.springboot_adoption.vo.PetBoarding;
+import com.ambow.springboot_adoption.vo.Result;
 import com.ambow.springboot_adoption.vo.UserPetBoarding;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.*;
@@ -46,4 +47,33 @@ public interface UserPetBoardingMapper {
 
     @Select("select pet_size from userpet_boarding where user_pet_id = #{userPetId}")
     String selectPetSizeByUserPetId(Integer userPetId);
+
+
+
+    @Select("SELECT \n" +
+            "  user_pet_id AS userPetId,\n" +
+            "  user_id AS userId,\n" +
+            "  pet_name AS petName,\n" +
+            "  pet_type AS petType,\n" +
+            "  pet_age AS petAge,\n" +
+            "  pet_gender AS petGender,\n" +
+            "  health_status AS healthStatus,\n" +
+            "  vaccine_status AS vaccineStatus,\n" +
+            "  special_habit AS specialHabit,\n" +
+            "  pet_image AS petImage,\n" +
+            "  create_time AS createTime,\n" +
+            "  pet_size AS petSize\n " +
+            "FROM userpet_boarding \n" +
+            "WHERE \n" +
+            "  pet_name LIKE CONCAT('%', #{keyword}, '%') OR\n" +
+            "  pet_type LIKE CONCAT('%', #{keyword}, '%') OR\n" +
+            "  user_id LIKE CONCAT('%', #{keyword}, '%') OR\n" +
+            "  health_status LIKE CONCAT('%', #{keyword}, '%') OR\n" +
+            "  pet_gender LIKE CONCAT('%', #{keyword}, '%') OR\n" +
+            "  vaccine_status LIKE CONCAT('%', #{keyword}, '%') OR\n" +
+            "  pet_size LIKE CONCAT('%', #{keyword}, '%')\n")
+    List<UserPetBoarding> searchUserPetBoarding(String keyword);
+
+    @Select("select pet_image from userpet_boarding where user_pet_id = #{userPetId}")
+    String getImageByUserPetId(Integer userPetId);
 }

@@ -4,6 +4,8 @@ import com.ambow.springboot_adoption.vo.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ambow.springboot_adoption.vo.PetBoarding;
 
+import java.util.List;
+
 public interface PetBoardingService {
     //    查询所有记录
     IPage<PetBoarding> selectAllPetBoarding(int pageNum, int pageSize);
@@ -12,5 +14,7 @@ public interface PetBoardingService {
 
     Result updatePetBoarding(PetBoarding petBoarding);
 
-    Result deletePetBoarding(PetBoarding petBoarding);
+    Result deletePetBoarding(Integer boardingId);
+
+    Result searchUserPetBoarding(String keyword);
 }
