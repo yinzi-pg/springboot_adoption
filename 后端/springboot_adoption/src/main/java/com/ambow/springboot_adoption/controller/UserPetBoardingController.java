@@ -73,7 +73,7 @@ public class UserPetBoardingController {
     public Result selectUserPetBoardingByUserId(@PathVariable("userId") Integer userId){
         List<UserPetBoarding> i = userPetBoardingService.selectUserPetBoardingByUserId(userId);
         if (i != null){
-            return Result.success();
+            return Result.success(i);
         }
         return Result.error("未获取到信息");
     }
@@ -83,7 +83,7 @@ public class UserPetBoardingController {
     public Result selectPetSizeByUserPetId(@PathVariable("userPetId") Integer userPetId){
         String i = userPetBoardingService.selectPetSizeByUserPetId(userPetId);
         if (i != null){
-            return Result.success();
+            return Result.success(i);
         }
         return Result.error("未获取到信息");
     }
