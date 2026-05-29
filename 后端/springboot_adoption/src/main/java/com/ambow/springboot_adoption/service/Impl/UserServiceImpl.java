@@ -85,6 +85,15 @@ public class UserServiceImpl implements UserService {
         return  Result.success();
     }
 
+    @Override
+    public Result updateUser(User user) {
+        int i = userMapper.updateUser(user);
+        if (i != 1){
+            return Result.error("修改失败");
+        }
+        return  Result.success();
+    }
+
     private Result loginParameterValidation(String username, String password) {
       Result result = new Result();
         if (StringUtils.isBlank(username)) {
@@ -95,8 +104,8 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isBlank(password)) {
             result.setCode(1);
             result.setMessage("密码不能为空");
-            return result;
-        }
+        return result;
+    }
         result.setCode(0);
       return   result;
 

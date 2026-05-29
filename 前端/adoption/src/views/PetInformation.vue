@@ -12,6 +12,7 @@ import { ref } from 'vue'
 import { getPetList, petAddService, petDeleteService ,petUpdateService, searchPetService } from '@/api/petInformation'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 // 图片上传前校验（与注册页完全一致）
 const beforeUpload = (file) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -295,7 +296,7 @@ const getImageUrl = (path) => {
                 <template #default="{ row }">
                     <img 
                         v-if="row.petImage" 
-                        :src="getImageUrl(row.petImage)" 
+                        :src="BACKEND_BASE+getImageUrl(row.petImage)"
                         alt="宠物照片" 
                         class="pet-img"
                     >

@@ -40,8 +40,9 @@ public class UserInformationManagementController {
     }
 
     //修改
-    @PatchMapping("updateUser")
+//    @PatchMapping("updateUser")
     public Result updateUser(@RequestBody User user){
+        System.out.println(user);
         int result = czService.updateUser(user);
         if (result > 0) {
             return Result.success();
