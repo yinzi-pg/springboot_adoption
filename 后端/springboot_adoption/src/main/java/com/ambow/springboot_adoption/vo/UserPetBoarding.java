@@ -16,6 +16,7 @@ public class UserPetBoarding {
     private Integer petAge;
     private String petGender;
     private String healthStatus;
+    private String vaccineStatus;
     private String specialHabit;
     private String petImage;
 }
