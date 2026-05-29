@@ -27,7 +27,7 @@ import { useUserInfoStore } from '@/stores/user.js';
 const instance = getCurrentInstance();
 // 获取表单引用
 const formRef = ref(null);
-
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 // 获取用户信息Store
 const userInfoStore = useUserInfoStore();
 
@@ -497,7 +497,7 @@ onMounted(() => {
         <template #default="{ row }">
           <div class="pet-image-container" @click="handleViewImage(row?.petImage)">
             <el-image
-              :src="getImageUrl(row?.petImage)"
+              :src="BACKEND_BASE+row?.petImage"
               :alt="row?.petName || '宠物图片'"
               class="pet-image"
               fit="cover"
@@ -699,7 +699,7 @@ onMounted(() => {
           >
             <img 
               v-if="formData.petImage" 
-              :src="getImageUrl(formData.petImage)" 
+              :src="BACKEND_BASE+formData.petImage"
               class="avatar" 
             />
             <div v-else class="upload-placeholder">
@@ -742,7 +742,7 @@ onMounted(() => {
               <span class="detail-value">
                 <div class="detail-pet-image" @click="handleViewImage(detailModel.petImage)">
                   <el-image
-                    :src="getImageUrl(detailModel.petImage)"
+                    :src="BACKEND_BASE+detailModel.petImage"
                     :alt="detailModel.petName || '宠物图片'"
                     fit="cover"
                   >
@@ -853,7 +853,7 @@ onMounted(() => {
     >
       <div class="image-preview-container">
         <el-image
-          :src="getImageUrl(imagePreviewUrl)"
+          :src="BACKEND_BASE+imagePreviewUrl"
           :alt="detailModel.petName || '宠物图片'"
           fit="contain"
           class="preview-image"
