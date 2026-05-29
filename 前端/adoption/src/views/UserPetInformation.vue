@@ -9,6 +9,7 @@ import { ElMessage, ElDialog } from 'element-plus'
 
 // 导入接口
 import { getPetList, searchPetService } from '@/api/petInformation'
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 
 // 分页相关
 const pageNum = ref(1)
@@ -178,7 +179,7 @@ const openPetDetail = (pet) => {
         <div class="pet-card__header">
           <div class="pet-img-wrapper">
             <img 
-              :src="getImageUrl(pet.petImage)" 
+              :src="BACKEND_BASE+pet.petImage"
               alt="宠物照片" 
               class="pet-card__img"
             >

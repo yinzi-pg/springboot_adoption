@@ -26,7 +26,7 @@ import { useUserInfoStore } from '@/stores/user.js'
 import { useRouter, useRoute } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { ref, watchEffect, computed } from 'vue';
-
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 const router = useRouter()
 const route = useRoute()
 const userInfoStore = useUserInfoStore()
@@ -293,7 +293,7 @@ addHomeMenuItem()
         <!-- 个人资料下拉框 -->
         <div class="user-dropdown">
           <div class="user-avatar" @click.stop="dropdownVisible = !dropdownVisible">
-            <el-avatar :src="userInfoStore.info.avatar || '@/assets/default.png'" />
+            <el-avatar :src="BACKEND_BASE+userInfoStore.info.avatar || '@/assets/default.png'" />
             <el-icon class="caret-icon" :class="{ 'rotate': dropdownVisible }">
               <CaretBottom />
             </el-icon>

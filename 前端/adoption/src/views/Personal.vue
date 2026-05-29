@@ -9,7 +9,7 @@ import request from '@/utils/request'
 // 状态管理
 const userInfoStore = useUserInfoStore()
 const userInfo = ref(userInfoStore.info)
-
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 // 编辑对话框状态
 const dialogVisible = ref(false)
 const title = ref('')
@@ -357,7 +357,7 @@ const beforeAvatarUpload = (file) => {
     
     <div class="user-profile">
       <div class="avatar-container" v-if="userInfo">
-        <el-avatar :size="100" :src="userInfo.avatar || '/src/assets/default.png'" />
+        <el-avatar :size="100" :src="BACKEND_BASE+userInfo.avatar || '/src/assets/default.png'" />
         <div class="username">{{ userInfo.userName || '未设置' }}</div>
         
         <!-- 余额显示和充值按钮 -->
@@ -399,7 +399,7 @@ const beforeAvatarUpload = (file) => {
             :http-request="uploadAvatar"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="userModel.avatar" :src="userModel.avatar" class="avatar" />
+            <img v-if="userModel.avatar" :src="BACKEND_BASE+userModel.avatar" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Edit /></el-icon>
           </el-upload>
         </el-form-item>

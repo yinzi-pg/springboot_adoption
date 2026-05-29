@@ -33,4 +33,20 @@ public interface UserMapper {
             "set money = money + #{amount}" +
             " where user_id = #{userId}")
     Integer userAddMoney(Integer userId, Integer amount);
+    @Update("<script>" +
+            "UPDATE `user` " +
+            "<set>" +
+            "    <if test='userName != null and userName != \"\"'>user_name = #{userName},</if>" +
+            "    <if test='userPassword != null and userPassword != \"\"'>user_password = #{userPassword},</if>" +
+            "    <if test='userGender != null and userGender != \"\"'>user_gender = #{userGender},</if>" +
+            "    <if test='userAge != null'>user_age = #{userAge},</if>" +
+            "    <if test='userPhone != null and userPhone != \"\"'>user_phone = #{userPhone},</if>" +
+            "    <if test='userEmail != null and userEmail != \"\"'>user_email = #{userEmail},</if>" +
+            "    <if test='userRole != null and userRole != \"\"'>user_role = #{userRole},</if>" +
+            "    <if test='avatar != null and avatar != \"\"'>avatar = #{avatar},</if>" +
+            "    <if test='money != null'>money = #{money},</if>" +
+            "</set>" +
+            "WHERE user_id = #{userId}" +
+            "</script>")
+    int updateUser(User user);
 }

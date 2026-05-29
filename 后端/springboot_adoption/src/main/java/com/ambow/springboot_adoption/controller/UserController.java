@@ -77,6 +77,11 @@ public class UserController {
             return Result.error("未查询到该信息");
         }
     }
+    @PatchMapping("updateUser")
+    public Result updateUser( @RequestBody User  user){
+        System.out.println(user);
+      return   userService.updateUser(user);
+    }
 
     //根据userId修改user_role
     @PatchMapping("updateUserByUserId")

@@ -16,4 +16,6 @@ public interface UserService {
 
      Result userAddMoney(Integer userId, Integer amount);
 
+    Result updateUser(User user);
 }
+

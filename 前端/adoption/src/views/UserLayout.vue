@@ -28,7 +28,7 @@ import { ElMessage, ElMessageBox, ElAvatar, ElIcon, ElButton, ElMenu, ElMenuItem
 import { ref, watchEffect, computed, onMounted } from 'vue';
 // 引入获取公告信息的方法
 import { getPublicListNoPage } from '@/api/publicInformation'
-
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 const router = useRouter()
 const route = useRoute()
 const userInfoStore = useUserInfoStore()
@@ -445,7 +445,7 @@ const goToBoardingApply = () => {
             <!-- 个人资料下拉框 -->
             <div class="user-dropdown">
               <div class="user-avatar" @click.stop="dropdownVisible = !dropdownVisible">
-                <el-avatar :src="userInfoStore?.info?.avatar ? getImageUrl(userInfoStore.info.avatar) : defaultAnnouncementImg" :size="36" />
+                <el-avatar :src="BACKEND_BASE+userInfoStore?.info?.avatar ? getImageUrl(BACKEND_BASE+userInfoStore.info.avatar) : defaultAnnouncementImg" :size="36" />
                 <el-icon class="caret-icon" :class="{ 'rotate': dropdownVisible }">
                   <CaretBottom />
                 </el-icon>
