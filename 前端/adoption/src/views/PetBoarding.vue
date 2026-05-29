@@ -28,7 +28,7 @@ import { getUserPetBoardingList } from '@/api/userPetBoarding'; // 修改为用�
 const pageNum = ref(1);
 const pageSize = ref(5);
 const total = ref(0);
-
+const BACKEND_BASE = 'http://localhost:8080/springboot_adoption';
 // 分页事件
 const onSizeChange = (size) => {
   pageSize.value = size;
@@ -389,7 +389,7 @@ onMounted(() => {
         <template #default="{ row }">
           <div class="pet-image-container" @click="handleViewImage(row?.petImage)">
             <el-image
-              :src="row?.petImage || require('@/assets/default-pet.png')"
+              :src="BACKEND_BASE+row?.petImage || require('@/assets/default-pet.png')"
               :alt="row?.petName || '宠物图片'"
               class="pet-image"
               fit="cover"
@@ -519,7 +519,7 @@ onMounted(() => {
         <el-form-item label="宠物图片">
           <div class="form-pet-image" v-if="formData.petImage">
             <el-image
-              :src="formData.petImage"
+              :src="BACKEND_BASE+formData.petImage"
               :alt="formData.petName || '宠物图片'"
               fit="cover"
               @click="handleViewImage(formData.petImage)"
@@ -631,7 +631,7 @@ onMounted(() => {
               <span class="detail-value">
                 <div class="detail-pet-image" @click="handleViewImage(detailModel.petImage)">
                   <el-image
-                    :src="detailModel.petImage || require('@/assets/default-pet.png')"
+                    :src="BACKEND_BASE+detailModel.petImage || require('@/assets/default-pet.png')"
                     :alt="detailModel.petName || '宠物图片'"
                     fit="cover"
                   >
@@ -755,7 +755,7 @@ onMounted(() => {
     >
       <div class="image-preview-container">
         <el-image
-          :src="imagePreviewUrl"
+          :src="BACKEND_BASE+imagePreviewUrl"
           :alt="detailModel.petName || '宠物图片'"
           fit="contain"
           class="preview-image"
