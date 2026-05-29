@@ -3,6 +3,7 @@ package com.ambow.springboot_adoption.controller;
 import com.ambow.springboot_adoption.service.UserService;
 import com.ambow.springboot_adoption.service.VolunteerService;
 import com.ambow.springboot_adoption.vo.PageBean;
+import com.ambow.springboot_adoption.vo.PublicInformation;
 import com.ambow.springboot_adoption.vo.Result;
 import com.ambow.springboot_adoption.vo.Volunteer;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,21 +25,10 @@ public class VolunteerController {
     public Result selectAllVolunteer(
             @RequestParam("pageNum") int pageNum,
             @RequestParam("pageSize") int pageSize) {
-        IPage<Volunteer> page = volunteerService.selectAllVolunteerPage(pageNum, pageSize);
-        PageBean<Volunteer> pageBean = new PageBean<>(page.getTotal(), page.getRecords());
-        return Result.success(pageBean);
+        return volunteerService.selectAllVolunteerPage(pageNum, pageSize);
     }
 
-     //新增
-//    @PostMapping("addVolunteer")
-//    public Result addVolunteer(@RequestBody Volunteer volunteer) {//用于将 HTTP 请求体（body）中的内容自动绑定到方法参数对象上。常见的使用场景是处理客户端提交的 JSON 或 XML 格式数据，Spring 会借助 HttpMessageConverter 将其转换为指定的 Java 对象（此处为 Volunteer 类型）。
-//        int result = volunteerService.addVolunteer(volunteer);
-//        if (result > 0) {
-//            return Result.success(result);
-//        } else {
-//            return Result.error("新增志愿者信息失败");
-//        }
-//    }
+
     @PostMapping("addVolunteer")
     public Result addVolunteer(@RequestBody Volunteer volunteer) {
         // 直接调用 Service，Service 已经完成校验和业务处理，返回 Result
@@ -48,12 +38,6 @@ public class VolunteerController {
      //修改
     @PatchMapping("updateVolunteer")
     public Result updateVolunteer(@RequestBody Volunteer volunteer) {
-//        int result = volunteerService.updateVolunteer(volunteer);
-//        if (result > 0) {
-//            return Result.success(result);
-//        } else {
-//            return Result.error("修改志愿者信息失败");
-//        }
         return volunteerService.updateVolunteer(volunteer);
 
 //        // 1. 更新志愿者状态（使用原有服务方法名）
@@ -88,11 +72,13 @@ public class VolunteerController {
 
     // 模糊查询
     @GetMapping("searchVolunteer")
-    public Result searchVolunteer(@RequestParam("keyword") String keyword) {
-        List<Volunteer> result = volunteerService.findVolunteerByKeyword(keyword);
-        if (result != null) {
-            return Result.success(result);
-        } else {
+    public Result searchVolunteer(@RequestParam("keyword") String keyword,
+            @RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
+        IPage<Volunteer> result = volunteerService.findVolunteerByKeyword(keyword, pageNum, pageSize);
+        if ( result !=null){
+            PageBean<Volunteer> pageBean = new PageBean<>(result.getTotal(), result.getRecords());
+            return Result.success(pageBean);
+        }else {
             return Result.error("未找到相关信息");
         }
     }

@@ -42,8 +42,7 @@ public interface VolunteerMapper {
             "volunteer_status like concat('%', #{keyword}, '%') or " +
             "remark like concat('%', #{keyword}, '%') or " +
             "user_id like concat('%', #{keyword}, '%')")
-    List<Volunteer> findVolunteerByKeyword(@Param("keyword") String keyword);
-
+    IPage<Volunteer> findVolunteerByKeyword( @Param("keyword") String keyword,IPage<Volunteer> page);
     // 根据user_id查询志愿者信息
     @Select("select * from volunteer where user_id = #{userId}")
     List<Volunteer> selectByUserId(Integer userId);

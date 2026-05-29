@@ -28,9 +28,9 @@ export const UpdateVolunteerService = (volunteerModel) =>{
 }
 
 //模糊查询
-export const searchVolunteerService = (keyword) =>{
+export const searchVolunteerService = (keyword,pageNum,pageSize) =>{
     return request.get("/volunteer/searchVolunteer",{
-        params: { keyword }
+        params: { keyword,pageNum,pageSize}
     })
 }
 

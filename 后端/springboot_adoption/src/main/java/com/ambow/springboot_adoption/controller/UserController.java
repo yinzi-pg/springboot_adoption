@@ -89,8 +89,9 @@ public class UserController {
         Volunteer volunteer = volunteers.get(0); // 假设一个用户对应一个志愿者记录
 
         // 2. 更新志愿者状态（此处可根据业务需求修改volunteer的字段）
-        int updateCount = volunteerMapper.updateVolunteer(volunteer);
-        if (updateCount <= 0) {
+        Result uodateresult=volunteerService.updateVolunteer(volunteer);
+//        int updateCount = volunteerMapper.updateVolunteer(volunteer);
+        if (uodateresult.getCode()==1) {
             return Result.error("修改志愿者信息失败");
         }
 

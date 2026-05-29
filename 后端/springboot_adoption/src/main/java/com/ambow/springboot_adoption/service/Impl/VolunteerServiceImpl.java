@@ -3,9 +3,7 @@ package com.ambow.springboot_adoption.service.Impl;
 import com.ambow.springboot_adoption.dao.UserMapper;
 import com.ambow.springboot_adoption.dao.VolunteerMapper;
 import com.ambow.springboot_adoption.service.VolunteerService;
-import com.ambow.springboot_adoption.vo.Result;
-import com.ambow.springboot_adoption.vo.User;
-import com.ambow.springboot_adoption.vo.Volunteer;
+import com.ambow.springboot_adoption.vo.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +19,18 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Autowired
     private UserMapper userMapper;
 
+
     // 分页查询全部
     @Override
-    public IPage<Volunteer> selectAllVolunteerPage(int pageNum, int pageSize) {
+//    public IPage<Volunteer> selectAllVolunteerPage(int pageNum, int pageSize) {
+//        Page<Volunteer> page = new Page<>(pageNum, pageSize);
+//        return volunteerMapper.selectAllVolunteerPage(page);
+//    }
+    public Result selectAllVolunteerPage(int pageNum, int pageSize) {
         Page<Volunteer> page = new Page<>(pageNum, pageSize);
-        return volunteerMapper.selectAllVolunteerPage(page);
+        IPage<Volunteer> pages = volunteerMapper.selectAllVolunteerPage(page);
+        PageBean<Volunteer> pageBean = new PageBean<>(pages.getTotal(), pages.getRecords());
+        return Result.success(pageBean);
     }
 
      //新增
@@ -78,6 +83,9 @@ public class VolunteerServiceImpl implements VolunteerService {
         if (user==null) {
             return Result.error("关联用户查询不到");
         }
+        if (volunteer.getVolunteerType() == null || volunteer.getVolunteerType().trim().isEmpty()) {
+            return Result.error("服务类型不能为空");
+        }
         if (volunteer.getServiceHours() < 0) {
             return Result.error("服务时长必须大于或等于0");
         }
@@ -96,13 +104,16 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     // 模糊查询
     @Override
-    public List<Volunteer> findVolunteerByKeyword(String keyword) {
-        return volunteerMapper.findVolunteerByKeyword(keyword);
+    public IPage<Volunteer>  findVolunteerByKeyword(String keyword,int pageNum,int pageSize) {
+        Page<Volunteer> page = new Page<>(pageNum, pageSize);
+        return volunteerMapper.findVolunteerByKeyword(keyword,page);
     }
 
     // 根据user_id查询
     @Override
-    public List<Volunteer> selectVolunteerByUserId(Integer userId) {
+    public List<Volunteer> selectVolunteerByUserId(Integer userId) {//原list
         return volunteerMapper.selectByUserId(userId);
+
+
     }
 }

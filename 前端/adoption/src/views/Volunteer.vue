@@ -24,6 +24,7 @@ import { getUserById, userUpdateByUserIdService } from '@/api/userInformation'
 import { useUserInfoStore } from '@/stores/user.js'
 
 import { ElMessage, ElMessageBox, ElForm } from 'element-plus'
+import Volunteer from "@/views/Volunteer.vue";
 
 // 状态管理
 const UserStore = useUserInfoStore()
@@ -178,33 +179,71 @@ const fillUserInfo = async (volunteer) => {
 
 // 初始化加载
 getAllVolunteers();
-
 // 模糊查询志愿者
+// const handleSearch = async () => {
+//     const keyword = searchKeyword.value.trim();
+//     if (!keyword) {
+//         getAllVolunteers();
+//         return;
+//     }
+//     try {
+//         const result = await searchVolunteerService(keyword,pageNum.value,pageSize.value);
+//         volunteers.value = result.data.items;
+//         total.value = result.data.total;
+//         if (result.code === 0) {
+//           const volunteerList = result.data.items || [];
+//             for (const volunteer of volunteerList) {
+//                 await fillUserInfo(volunteer);
+//                 volunteer.serviceHours = Number(volunteer.serviceHours);
+//             }
+//             volunteers.value = volunteerList;
+//             if (volunteers.value.length === 0) {
+//                 ElMessage.info('未找到匹配的志愿者信息');
+//             }
+//         } else {
+//             ElMessage.error('搜索失败，请重试');
+//         }
+//     } catch (error) {
+//         ElMessage.error('搜索接口异常');
+//         console.error(error);
+//     }
+// };
+//模糊查询
 const handleSearch = async () => {
-    const keyword = searchKeyword.value.trim();
-    if (!keyword) {
-        getAllVolunteers();
+  const keyword = searchKeyword.value.trim();
+  if (!keyword) {
+    getAllVolunteers();
+    return;
+  }
+  try {
+    const result = await searchVolunteerService(keyword, pageNum.value, pageSize.value);
+    if (result.code === 0) {
+      // 根据实际后端返回结构调整：可能是 result.data.items 或 result.data.records
+      const volunteerList = result.data.items || result.data || [];
+      if (!Array.isArray(volunteerList)) {
+        console.error('搜索结果不是数组', volunteerList);
+        volunteers.value = [];
+        total.value = 0;
         return;
+      }
+      for (const volunteer of volunteerList) {
+        await fillUserInfo(volunteer);
+        volunteer.serviceHours = Number(volunteer.serviceHours);
+      }
+      volunteers.value = volunteerList;
+      total.value = result.data.total || volunteerList.length;
+      if (volunteers.value.length === 0) {
+        ElMessage.info('未找到匹配的志愿者信息');
+      }
+    } else {
+      ElMessage.error('搜索失败：' + result.message);
+      volunteers.value = [];
+      total.value = 0;
     }
-    try {
-        const result = await searchVolunteerService(keyword);
-        if (result.code === 0) {
-            const volunteerList = result.data;
-            for (const volunteer of volunteerList) {
-                await fillUserInfo(volunteer);
-                volunteer.serviceHours = Number(volunteer.serviceHours);
-            }
-            volunteers.value = volunteerList;
-            if (volunteers.value.length === 0) {
-                ElMessage.info('未找到匹配的志愿者信息');
-            }
-        } else {
-            ElMessage.error('搜索失败，请重试');
-        }
-    } catch (error) {
-        ElMessage.error('搜索接口异常');
-        console.error(error);
-    }
+  } catch (error) {
+    ElMessage.error('搜索接口异常');
+    console.error(error);
+  }
 };
 
 // 重置搜索
@@ -264,7 +303,7 @@ const addVolunteer = async () => {
             getAllVolunteers();
             ElMessage.success('添加成功');
         } else {
-            ElMessage.error('添加失败123：' + result.message);
+            ElMessage.error('添加失败：' + result.message);
         }
     } catch (error) {
         ElMessage.error('添加接口异常');
@@ -403,7 +442,7 @@ const getStatusType = (status) => {
 };
 
 // 图片路径处理
-const getImageUrl = (path) => {
+/*const getImageUrl = (path) => {
   if (!path) return '/assets/default-volunteer.png';
   if (path.startsWith('/assets/')) {
     try {
@@ -414,9 +453,22 @@ const getImageUrl = (path) => {
     }
   }
   return path;
+};*/
+
+// 在组件中定义一个后端基础URL
+const baseUrl = 'http://localhost:8080'; // 或从环境变量读取
+
+const getImageUrl = (path) => {
+  if (!path) return '/assets/default-volunteer.png';
+  if (path.startsWith('http')) return path;
+  // 拼接完整后端地址
+  return `${baseUrl}/springboot_adoption${path}`;
 };
+
 </script>
 
+
+<!--顶部-->
 <template>
     <el-card class="page-container">
         <template #header>
